@@ -365,10 +365,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cafdbb6280c4473c9a2be1081d5b038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 500
+  movementSpeed: 200
   height: 60
-  followTerrain: 0
-  autoFly: 0
+  followTerrain: 1
+  autoFly: 1
 --- !u!114 &25
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
   terrainPlane: {fileID: 100000, guid: fe04d679c8ab945c6a49f79587243a85, type: 3}
   buffer: 1
   detailScale: 0.001
-  heightScale: 200
+  heightScale: 80
   singlePlaneSize: 333
 --- !u!1 &1701239269
 GameObject:
