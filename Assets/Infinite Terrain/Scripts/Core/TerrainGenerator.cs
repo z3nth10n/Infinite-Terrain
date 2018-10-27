@@ -30,8 +30,11 @@ namespace InfiniteTerrain.Core
         // as the noise always returns a value from -1 to 1 create a scalar
         public float heightScale;
 
+        // size of a single plane
+        public float singlePlaneSize = 100f;
+
         // the planes scale (default unity plane is 10 units by 10 units, any more will make localScale of terrainPlane change)
-        public float planeSize = 60f;
+        private float planeSize;
 
         // plane count is the amount of planes in a single row (buffer * 2 + 1)
         private int planeCount;
@@ -48,8 +51,11 @@ namespace InfiniteTerrain.Core
         private void Start()
         {
             planeCount = buffer * 2 + 1;
+            planeSize = singlePlaneSize * 10f / buffer;
+
             tileX = Mathf.RoundToInt(target.position.x / planeSize);
             tileZ = Mathf.RoundToInt(target.position.z / planeSize);
+
             Generate();
         }
 
@@ -88,6 +94,11 @@ namespace InfiniteTerrain.Core
                         (GameObject)Instantiate(terrainPlane, new Vector3(x * planeSize, 0, z * planeSize), Quaternion.identity);
 
             plane.SetActive(true);
+
+            // Fix for tiling
+            float tiling = singlePlaneSize / 20f;
+
+            plane.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(tiling, tiling));
 
             plane.transform.localScale = new Vector3(planeSize * 0.1f, 1, planeSize * 0.1f);
             plane.transform.parent = transform;
