@@ -98,13 +98,17 @@ namespace InfiniteTerrain.Core
             // Fix for tiling
             float tiling = singlePlaneSize / 20f;
 
-            plane.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(tiling, tiling));
+            Renderer renderer = plane.GetComponent<Renderer>();
+            MeshFilter filter = plane.GetComponent<MeshFilter>();
+            MeshCollider collider = plane.AddComponent<MeshCollider>();
+
+            renderer.material.SetTextureScale("_MainTex", new Vector2(tiling, tiling));
 
             plane.transform.localScale = new Vector3(planeSize * 0.1f, 1, planeSize * 0.1f);
             plane.transform.parent = transform;
 
             // Get the planes vertices
-            Mesh mesh = plane.GetComponent<MeshFilter>().mesh;
+            Mesh mesh = filter.mesh;
             Vector3[] vertices = mesh.vertices;
 
             // alter vertex Y position depending on simplex noise)
@@ -121,7 +125,8 @@ namespace InfiniteTerrain.Core
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
 
-            plane.AddComponent<MeshCollider>();
+            collider.sharedMesh = null;
+            collider.sharedMesh = mesh;
 
             Tile tile = new Tile();
             tile.gameObject = plane;
